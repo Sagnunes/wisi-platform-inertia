@@ -24,21 +24,13 @@ class StatusController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(StoreStatusRequest $request): \Illuminate\Http\RedirectResponse
     {
         $this->statusService->create(StatusDTO::fromRequest($request->validated()));
 
-        return to_route('statuses.index');
+        return to_route('statuses.index')->with('success', 'Status created successfully.');
     }
 
     /**
@@ -74,6 +66,6 @@ class StatusController extends Controller
     {
         $this->statusService->delete($status);
 
-        return to_route('statuses.index');
+        return to_route('statuses.index')->with('success', 'Status deleted successfully.');
     }
 }
