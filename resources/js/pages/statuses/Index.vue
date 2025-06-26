@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { Button } from '@/components/ui/button';
+import TextLink from '@/components/TextLink.vue';
+import CreateStatus from '@/components/statuses/CreateStatus.vue';
+import DeleteStatus from '@/components/statuses/DeleteStatus.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 import { Status } from '@/types/user/status';
-import { Head, Link } from '@inertiajs/vue3';
+import { Head } from '@inertiajs/vue3';
 import { PropType } from 'vue';
-import TextLink from '@/components/TextLink.vue';
-import DeleteStatus from '@/components/statuses/DeleteStatus.vue';
-import CreateStatus from '@/components/statuses/CreateStatus.vue';
+import Tab from '@/components/ui/tab/Tab.vue';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -20,9 +20,9 @@ defineProps({
     statuses: { type: Array as PropType<Status[]>, required: true },
 });
 
-const editStatus = (slug:string) => {
+const editStatus = (slug: string) => {
     return '/statuses/' + slug + '/edit';
-}
+};
 </script>
 
 <template>
@@ -30,14 +30,15 @@ const editStatus = (slug:string) => {
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div>
-            <div class="mx-auto max-w-7xl px-4 sm:px-6 sm:pt-4 lg:px-8 lg:pt-9">
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 sm:pt-4 lg:px-8 lg:pt-4 lg:space-y-8">
+                <Tab/>
                 <div class="sm:flex sm:items-center">
                     <div class="sm:flex-auto">
                         <h1 class="text-base font-semibold text-gray-900">Statuses</h1>
                         <p class="mt-2 text-sm text-gray-700">A list of all the users in your account including their name, title, email and role.</p>
                     </div>
                     <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
-                        <CreateStatus/>
+                        <CreateStatus />
                     </div>
                 </div>
             </div>
@@ -51,7 +52,9 @@ const editStatus = (slug:string) => {
                                     <div class="absolute inset-y-0 right-full -z-10 w-screen border-b border-b-gray-200" />
                                     <div class="absolute inset-y-0 left-0 -z-10 w-screen border-b border-b-gray-200" />
                                 </th>
-                                <th scope="col" class="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 sm:table-cell">Description</th>
+                                <th scope="col" class="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 sm:table-cell">
+                                    Description
+                                </th>
                                 <th scope="col" class="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 md:table-cell">Created at</th>
                                 <th scope="col" class="relative py-3.5 pl-3">
                                     <span class="sr-only">Edit</span>
@@ -71,11 +74,9 @@ const editStatus = (slug:string) => {
                                     <TextLink :href="editStatus(status.slug)"> Edit</TextLink>
                                     <DeleteStatus :status />
                                 </td>
-
                             </tr>
                         </tbody>
                     </table>
-
                 </div>
             </div>
         </div>

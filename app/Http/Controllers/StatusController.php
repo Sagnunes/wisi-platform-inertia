@@ -64,7 +64,7 @@ class StatusController extends Controller
     {
         $this->statusService->update($status, StatusDTO::fromRequest($request->validated()));
 
-        return redirect()->back();
+        return to_route('statuses.index')->with('success', 'Status updated successfully.');
     }
 
     /**

@@ -9,18 +9,6 @@ import { Status } from '@/types/user/status';
 import { Head, useForm } from '@inertiajs/vue3';
 import { PropType } from 'vue';
 
-const breadcrumbs: BreadcrumbItem[] = [
-    {
-        title: 'Statuses',
-        href: '/statuses',
-    },
-];
-
-breadcrumbs.push({
-    title: 'Editing status',
-    href: '/',
-});
-
 const props = defineProps({
     status: {
         type: Object as PropType<Status>,
@@ -29,6 +17,19 @@ const props = defineProps({
 });
 
 const status = props.status;
+
+const breadcrumbs: BreadcrumbItem[] = [
+    {
+        title: 'Statuses',
+        href: '/statuses',
+    },
+];
+
+breadcrumbs.push({
+    title: `Editing status - ${status.name}`,
+    href: '/',
+});
+
 const form = useForm({
     name: status.name,
     description: status.description ?? undefined,
