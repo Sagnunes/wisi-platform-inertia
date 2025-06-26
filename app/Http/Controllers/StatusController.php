@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\DTOs\Status\StatusDTO;
-use App\Http\Requests\StoreStatusRequest;
-use App\Http\Requests\UpdateStatusRequest;
+use App\Http\Requests\Statuses\StoreStatusRequest;
+use App\Http\Requests\Statuses\UpdateStatusRequest;
 use App\Models\Status;
 use App\Services\StatusService;
 use Inertia\Inertia;
