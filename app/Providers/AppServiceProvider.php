@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Contracts\Roles\RoleInterface;
 use App\Contracts\Statuses\StatusInterface;
+use App\Repositories\EloquentRoleRepository;
 use App\Repositories\EloquentStatusRepository;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Model;
@@ -19,6 +21,7 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->bind(StatusInterface::class, EloquentStatusRepository::class);
+        $this->app->bind(RoleInterface::class, EloquentRoleRepository::class);
     }
 
     /**

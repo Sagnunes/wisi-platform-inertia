@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Collection;
 class EloquentStatusRepository implements StatusInterface
 {
     /**
-     * The columns to select from the funds table
+     * The columns to select from the status table
      */
     private const STATUS_LIST_COLUMNS = ['id', 'name', 'slug', 'description', 'created_at', 'updated_at'];
 

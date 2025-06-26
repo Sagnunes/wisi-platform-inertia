@@ -19,5 +19,9 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
+
+        \Illuminate\Support\Facades\DB::table('role_user')->insert([
+            ['user_id' => 1, 'role_id' => 1, 'created_by_id' => 1, 'created_at' => \Carbon\Carbon::now()],
+        ]);
     }
 }
