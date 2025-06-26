@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Contracts\Statuses\StatusInterface;
+use App\Repositories\EloquentStatusRepository;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Date;
@@ -16,7 +18,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind(StatusInterface::class, EloquentStatusRepository::class);
     }
 
     /**

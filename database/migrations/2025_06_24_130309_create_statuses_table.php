@@ -22,7 +22,7 @@ return new class extends Migration {
         DB::table('statuses')->insert([
             ['name' => 'Pendente', 'slug' => 'pendente', 'created_at' => \Carbon\Carbon::now()],
             ['name' => 'Ativo', 'slug' => 'ativo', 'created_at' => \Carbon\Carbon::now()],
-            ['name' => 'Suspenso', 'slug' => 'suspenso', 'created_at' => \Carbon\Carbon::now()],
+            ['name' => 'Bloqueado', 'slug' => 'bloqueado', 'created_at' => \Carbon\Carbon::now()],
         ]);
     }
 
