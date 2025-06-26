@@ -24,6 +24,7 @@ enum StatusesEnum: int
                 return $case;
             }
         }
+
         return null;
     }
 }

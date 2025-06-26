@@ -15,5 +15,5 @@ Route::get('dashboard', function () {
 Route::resource('statuses', StatusController::class)->middleware(['auth', 'verified'])->except('edit');
 Route::get('statuses/{status:slug}/edit', [StatusController::class, 'edit'])->middleware(['auth', 'verified'])->name('statuses.edit');
 
-require __DIR__ . '/settings.php';
-require __DIR__ . '/auth.php';
+require __DIR__.'/settings.php';
+require __DIR__.'/auth.php';

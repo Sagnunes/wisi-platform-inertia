@@ -5,22 +5,19 @@ declare(strict_types=1);
 namespace App\DTOs\Status;
 
 use App\Models\Status;
-use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Str;
 
 final readonly class StatusDTO
 {
     public function __construct(
 
-        public string  $name,
-        public string  $slug,
-        public ?int    $id = null,
+        public string $name,
+        public string $slug,
+        public ?int $id = null,
         public ?string $description = null,
         public ?string $created_at = null,
         public ?string $updated_at = null,
-    )
-    {
-    }
+    ) {}
 
     public static function fromRequest(array $data): self
     {

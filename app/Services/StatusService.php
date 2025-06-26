@@ -10,10 +10,7 @@ use App\Models\Status;
 
 final readonly class StatusService
 {
-    public function __construct(private StatusInterface $repository)
-    {
-    }
-
+    public function __construct(private StatusInterface $repository) {}
 
     private function toDto(Status $status): StatusDTO
     {
@@ -23,7 +20,7 @@ final readonly class StatusService
     public function allStatuses(): array
     {
         return $this->repository->all()
-            ->map(fn(Status $status) => $this->toDto($status))
+            ->map(fn (Status $status) => $this->toDto($status))
             ->toArray();
     }
 
@@ -50,6 +47,7 @@ final readonly class StatusService
             'slug' => $dto->slug,
             'description' => $dto->description,
         ]);
+
         return $this->toDto($updatedStatus);
     }
 

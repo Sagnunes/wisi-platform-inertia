@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\DTOs\Status\StatusDTO;
-use App\Models\Status;
 use App\Http\Requests\StoreStatusRequest;
 use App\Http\Requests\UpdateStatusRequest;
+use App\Models\Status;
 use App\Services\StatusService;
 use Inertia\Inertia;
 
@@ -13,9 +13,7 @@ class StatusController extends Controller
 {
     public function __construct(
         private readonly StatusService $statusService,
-    )
-    {
-    }
+    ) {}
 
     /**
      * Display a listing of the resource.
@@ -39,6 +37,7 @@ class StatusController extends Controller
     public function store(StoreStatusRequest $request): \Illuminate\Http\RedirectResponse
     {
         $this->statusService->create(StatusDTO::fromRequest($request->validated()));
+
         return to_route('statuses.index');
     }
 
@@ -64,6 +63,7 @@ class StatusController extends Controller
     public function update(UpdateStatusRequest $request, Status $status): \Illuminate\Http\RedirectResponse
     {
         $this->statusService->update($status, StatusDTO::fromRequest($request->validated()));
+
         return redirect()->back();
     }
 

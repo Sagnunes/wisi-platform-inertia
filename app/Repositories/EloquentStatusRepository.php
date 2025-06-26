@@ -8,11 +8,9 @@ use Illuminate\Database\Eloquent\Collection;
 
 class EloquentStatusRepository implements StatusInterface
 {
-
     /**
      * The columns to select from the funds table
      */
-
     private const STATUS_LIST_COLUMNS = ['id', 'name', 'slug', 'description', 'created_at', 'updated_at'];
 
     public function all(): Collection
@@ -33,6 +31,7 @@ class EloquentStatusRepository implements StatusInterface
     public function update(Status $status, array $data): Status
     {
         $status->update($data);
+
         return $status->fresh();
     }
 
