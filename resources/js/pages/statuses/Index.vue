@@ -8,6 +8,7 @@ import { Status } from '@/types/user/status';
 import { Head } from '@inertiajs/vue3';
 import { PropType } from 'vue';
 import Tab from '@/components/ui/tab/Tab.vue';
+import FlashMessage from '@/components/ui/toast/FlashMessage.vue';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -30,6 +31,7 @@ const editStatus = (slug: string) => {
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div>
+            <FlashMessage />
             <div class="mx-auto max-w-7xl px-4 sm:px-6 sm:pt-4 lg:px-8 lg:pt-4 lg:space-y-8">
                 <Tab/>
                 <div class="sm:flex sm:items-center">

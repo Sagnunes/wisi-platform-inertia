@@ -24,7 +24,7 @@ final readonly class StatusDTO
         return new self(
             name: $data['name'],
             slug: Str::slug($data['name']),
-            description: $data['description'],
+            description: $data['description'] ?? null,
         );
     }
 

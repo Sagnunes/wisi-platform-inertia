@@ -23,7 +23,7 @@ final readonly class RoleDTO
         return new self(
             name: $data['name'],
             slug: Str::slug($data['name']),
-            description: $data['description'],
+            description: $data['description'] ?? null,
         );
     }
 
