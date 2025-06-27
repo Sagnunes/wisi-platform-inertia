@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import CreateDialog from '@/components/reuse/CreateDialog.vue';
-import DeleteDialog from '@/components/reuse/DeleteDialog.vue';
+import CreateDialog from '@/components/CreateDialog.vue';
+import DeleteDialog from '@/components/DeleteDialog.vue';
 import TextLink from '@/components/TextLink.vue';
 import { Button } from '@/components/ui/button';
 import Pagination from '@/components/ui/pagination/Pagination.vue';

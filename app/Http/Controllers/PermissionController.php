@@ -11,9 +11,7 @@ use Inertia\Inertia;
 
 class PermissionController extends Controller
 {
-    public function __construct(private readonly PermissionService $permissionService)
-    {
-    }
+    public function __construct(private readonly PermissionService $permissionService) {}
 
     /**
      * Display a listing of the resource.

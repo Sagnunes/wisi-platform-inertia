@@ -12,9 +12,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 final readonly class PermissionService
 {
-    public function __construct(private PermissionInterface $repository)
-    {
-    }
+    public function __construct(private PermissionInterface $repository) {}
 
     private function toDto(Permission $permission): PermissionDTO
     {
@@ -26,11 +24,10 @@ final readonly class PermissionService
      *
      * @return array<RoleDTO>
      */
-
     public function allPermissions(): array
     {
         return $this->repository->all()
-            ->map(fn(Permission $permission) => $this->toDto($permission))
+            ->map(fn (Permission $permission) => $this->toDto($permission))
             ->toArray();
     }
 
@@ -60,7 +57,7 @@ final readonly class PermissionService
         return [
             'current_page' => $paginated->currentPage(),
             'data' => $paginated->getCollection()
-                ->map(fn(Permission $permission) => $this->toDto($permission))
+                ->map(fn (Permission $permission) => $this->toDto($permission))
                 ->all(),
             'first_page_url' => $paginated->url(1),
             'from' => $paginated->firstItem(),
@@ -87,11 +84,7 @@ final readonly class PermissionService
     }
 
     /**
-     *
      * Create a new permission
-     *
-     * @param PermissionDTO $dto
-     * @return PermissionDTO
      */
     public function create(PermissionDTO $dto): PermissionDTO
     {
@@ -101,12 +94,7 @@ final readonly class PermissionService
     }
 
     /**
-     *
      * Update a existing permission
-     *
-     * @param Permission $permission
-     * @param PermissionDTO $dto
-     * @return PermissionDTO
      */
     public function update(Permission $permission, PermissionDTO $dto): PermissionDTO
     {
@@ -119,11 +107,7 @@ final readonly class PermissionService
     }
 
     /**
-     *
      * Delete a permission
-     *
-     * @param Permission $permission
-     * @return bool
      */
     public function delete(Permission $permission): bool
     {

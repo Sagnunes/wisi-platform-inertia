@@ -15,7 +15,6 @@ class EloquentRoleRepository implements RoleInterface
     /**
      * The columns to select from the role table
      */
-
     private const ROLE_LIST_COLUMNS = ['id', 'name', 'slug', 'description', 'created_at', 'updated_at'];
 
     public function __construct(Role $model)
@@ -37,7 +36,6 @@ class EloquentRoleRepository implements RoleInterface
     {
         return $this->baseQuery()->paginate($perPage)->withQueryString();
     }
-
 
     public function find(int $id): Role
     {

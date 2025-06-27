@@ -12,7 +12,6 @@ class EloquentPermissionRepository implements PermissionInterface
 {
     protected Permission $model;
 
-
     /**
      * The columns to select from the permission table
      */

@@ -15,7 +15,6 @@ class EloquentStatusRepository implements StatusInterface
     /**
      * The columns to select from the Status table
      */
-
     private const STATUS_LIST_COLUMNS = ['id', 'name', 'slug', 'description', 'created_at', 'updated_at'];
 
     public function __construct(Status $model)

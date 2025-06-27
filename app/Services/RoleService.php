@@ -7,7 +7,6 @@ namespace App\Services;
 use App\Contracts\Roles\RoleInterface;
 use App\DTOs\Role\RoleDTO;
 use App\Models\Role;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 final readonly class RoleService
 {
@@ -29,7 +28,7 @@ final readonly class RoleService
     public function allRoles(): array
     {
         return $this->repository->all()
-            ->map(fn(Role $role) => $this->toDto($role))
+            ->map(fn (Role $role) => $this->toDto($role))
             ->toArray();
     }
 
@@ -59,7 +58,7 @@ final readonly class RoleService
         return [
             'current_page' => $paginated->currentPage(),
             'data' => $paginated->getCollection()
-                ->map(fn(Role $role) => $this->toDto($role))
+                ->map(fn (Role $role) => $this->toDto($role))
                 ->all(),
             'first_page_url' => $paginated->url(1),
             'from' => $paginated->firstItem(),
@@ -91,6 +90,7 @@ final readonly class RoleService
     public function create(RoleDTO $dto): RoleDTO
     {
         $role = $this->repository->create($this->dtoToAttributes($dto));
+
         return $this->toDto($role);
     }
 
@@ -103,6 +103,7 @@ final readonly class RoleService
             $role,
             $this->dtoToAttributes($dto)
         );
+
         return $this->toDto($updatedRole);
     }
 

@@ -7,7 +7,6 @@ namespace App\Services;
 use App\Contracts\Statuses\StatusInterface;
 use App\DTOs\Status\StatusDTO;
 use App\Models\Status;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 final readonly class StatusService
@@ -89,6 +88,7 @@ final readonly class StatusService
     public function create(StatusDTO $dto): StatusDTO
     {
         $status = $this->repository->create($this->dtoToAttributes($dto));
+
         return $this->toDto($status);
     }
 

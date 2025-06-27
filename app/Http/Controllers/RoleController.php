@@ -13,9 +13,7 @@ class RoleController extends Controller
 {
     public function __construct(
         private readonly RoleService $roleService,
-    )
-    {
-    }
+    ) {}
 
     /**
      * Display a listing of the resource.
