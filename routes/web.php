@@ -15,8 +15,10 @@ Route::get('dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::resource('statuses', StatusController::class)->middleware(['auth', 'verified'])->except(['edit', 'create']);
-Route::get('statuses/{status:slug}/edit', [StatusController::class, 'edit'])->middleware(['auth', 'verified'])->name('statuses.edit');
+Route::middleware(['can:manage,App\Models\Status'])->group(function () {
+    Route::resource('statuses', StatusController::class)->middleware(['auth', 'verified'])->except(['edit', 'create']);
+    Route::get('statuses/{status:slug}/edit', [StatusController::class, 'edit'])->middleware(['auth', 'verified'])->name('statuses.edit');
+});
 
 Route::resource('roles', RoleController::class)->middleware(['auth', 'verified'])->except(['edit', 'create']);
 Route::get('roles/{role:slug}/edit', [RoleController::class, 'edit'])->middleware(['auth', 'verified'])->name('roles.edit');

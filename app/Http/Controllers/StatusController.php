@@ -26,16 +26,18 @@ class StatusController extends Controller
      */
     public function index(): Response
     {
-        $this->authorize('viewAny', Status::class);
+        $this->authorize('manage', Status::class);
+
+        $canManage = Auth::user()->can('manage', Status::class);
 
         return Inertia::render('statuses/Index',
             [
                 'statuses' => $this->statusService->allStatusesPaginated(),
                 'can' => [
-                    'create'=> Auth::user()->can('create', Status::class),
-                    'edit'=> Auth::user()->can('edit', Status::class),
-                    'delete'=> Auth::user()->can('delete', Status::class),
-                ]
+                    'create' => $canManage,
+                    'edit' => $canManage,
+                    'delete' => $canManage,
+                ],
             ]
         );
     }
@@ -45,9 +47,11 @@ class StatusController extends Controller
      */
     public function store(StoreStatusRequest $request): RedirectResponse
     {
+        $this->authorize('manage', Status::class);
+
         $this->statusService->create(StatusDTO::fromRequest($request->validated()));
 
-        return to_route('statuses.index')->with('success', 'Status created successfully.');
+        return to_route('statuses.index')->withSuccess('Status created successfully.');
     }
 
     /**
@@ -55,7 +59,9 @@ class StatusController extends Controller
      */
     public function show(Status $status): Response
     {
-        return Inertia::render('statuses/Show', ['status' => $status]);
+        $this->authorize('manage', Status::class);
+
+        return Inertia::render('statuses/Show', compact('status'));
     }
 
     /**
@@ -63,7 +69,9 @@ class StatusController extends Controller
      */
     public function edit(Status $status): Response
     {
-        return Inertia::render('statuses/Edit', ['status' => $status]);
+        $this->authorize('manage', Status::class);
+
+        return Inertia::render('statuses/Edit', compact('status'));
     }
 
     /**
@@ -71,9 +79,11 @@ class StatusController extends Controller
      */
     public function update(UpdateStatusRequest $request, Status $status): RedirectResponse
     {
+        $this->authorize('manage', Status::class);
+
         $this->statusService->update($status, StatusDTO::fromRequest($request->validated()));
 
-        return to_route('statuses.index')->with('success', 'Status updated successfully.');
+        return to_route('statuses.index')->withSuccess('Status updated successfully.');
     }
 
     /**
@@ -81,12 +91,14 @@ class StatusController extends Controller
      */
     public function destroy(Status $status): RedirectResponse
     {
+        $this->authorize('manage', Status::class);
+
         $currentPage = request()->input('page', 1);
 
         $this->statusService->delete($status);
 
         return to_route('statuses.index', ['page' => $currentPage])
-            ->with('success', 'Status deleted successfully.')
+            ->withSuccess('Status deleted successfully.')
             ->with('preserveScroll', true);
     }
 }

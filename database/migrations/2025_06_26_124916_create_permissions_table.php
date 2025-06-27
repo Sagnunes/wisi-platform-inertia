@@ -22,32 +22,17 @@ return new class extends Migration
         $now = Carbon\Carbon::now();
 
         $permissions = [
+
             // Roles
+            ['name' => 'Manage Roles', 'slug' => 'manage-roles'],
 
-            ['name' => 'Create Role', 'slug' => 'create-role'],
-            ['name' => 'View Role', 'slug' => 'view-role'],
-            ['name' => 'View Any Role', 'slug' => 'view-any-role'],
-            ['name' => 'Edit Role', 'slug' => 'edit-role'],
-            ['name' => 'Update Role', 'slug' => 'update-role'],
-            ['name' => 'Delete Role', 'slug' => 'delete-role'],
             // Statuses
+            ['name' => 'Manage Status', 'slug' => 'manage-status'],
 
-            ['name' => 'Create Status', 'slug' => 'create-status'],
-            ['name' => 'View Status', 'slug' => 'view-status'],
-            ['name' => 'View Any Status', 'slug' => 'view-any-status'],
-            ['name' => 'Edit Status', 'slug' => 'edit-status'],
-            ['name' => 'Update Status', 'slug' => 'update-status'],
-            ['name' => 'Delete Status', 'slug' => 'delete-status'],
             // Permissions
+            ['name' => 'Manage Permission', 'slug' => 'manage-permission'],
 
-            ['name' => 'Create Permission', 'slug' => 'create-permission'],
-            ['name' => 'View Permission', 'slug' => 'view-permission'],
-            ['name' => 'View Any Permission', 'slug' => 'view-any-permission'],
-            ['name' => 'Edit Permission', 'slug' => 'edit-permission'],
-            ['name' => 'Update Permission', 'slug' => 'update-permission'],
-            ['name' => 'Delete Permission', 'slug' => 'delete-permission'],
             // Assignments
-
             ['name' => 'Assign Role', 'slug' => 'assign-role'],
             ['name' => 'Assign Status', 'slug' => 'assign-status'],
             ['name' => 'Assign Permission', 'slug' => 'assign-permission'],

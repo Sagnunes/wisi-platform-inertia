@@ -4,56 +4,55 @@ namespace App\Policies;
 
 use App\Models\Status;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class StatusPolicy
 {
     /**
      * Determine whether the user can view any models.
      */
-    public function viewAny(User $user): Response
+    public function viewAny(User $user): bool
     {
-        return $user->hasRole('Administrador') && $user->hasPermission('view-any-status') ? Response::allow() : Response::deny('You are not authorized');
+        return false;
     }
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Status $status): Response
+    public function view(User $user, Status $status): bool
     {
-        return $user->hasRole('Administrador') && $user->hasPermission('view-status') ? Response::allow() : Response::deny('You are not authorized');
+        return false;
     }
 
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): Response
+    public function create(User $user): bool
     {
-        return $user->hasRole('Administrador') && $user->hasPermission('create-status') ? Response::allow() : Response::deny('You are not authorized');
+        return false;
     }
 
     /**
      * Determine whether the user can edit the model.
      */
-    public function edit(User $user): Response
+    public function edit(User $user): bool
     {
-        return $user->hasRole('Administrador') && $user->hasPermission('edit-status') ? Response::allow() : Response::deny('You are not authorized');
+        return false;
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Status $status): Response
+    public function update(User $user, Status $status): bool
     {
-        return $user->hasRole('Administrador') && $user->hasPermission('update-status') ? Response::allow() : Response::deny('You are not authorized');
+        return false;
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user): Response
+    public function delete(User $user, Status $status): bool
     {
-        return $user->hasRole('Administrador') && $user->hasPermission('delete-status') ? Response::allow() : Response::deny('You are not authorized');
+        return false;
     }
 
     /**
@@ -70,5 +69,10 @@ class StatusPolicy
     public function forceDelete(User $user, Status $status): bool
     {
         return false;
+    }
+
+    public function manage(User $user): bool
+    {
+        return $user->hasPermission('manage-status');
     }
 }
