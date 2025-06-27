@@ -21,99 +21,46 @@ return new class extends Migration
 
         $now = Carbon\Carbon::now();
 
-        DB::table('permissions')->insert([
-            [
-                'name' => 'Create Role',
-                'slug' => 'roles.create',
+        $permissions = [
+            // Roles
+
+            ['name' => 'Create Role', 'slug' => 'create-role'],
+            ['name' => 'View Role', 'slug' => 'view-role'],
+            ['name' => 'View Any Role', 'slug' => 'view-any-role'],
+            ['name' => 'Edit Role', 'slug' => 'edit-role'],
+            ['name' => 'Update Role', 'slug' => 'update-role'],
+            ['name' => 'Delete Role', 'slug' => 'delete-role'],
+            // Statuses
+
+            ['name' => 'Create Status', 'slug' => 'create-status'],
+            ['name' => 'View Status', 'slug' => 'view-status'],
+            ['name' => 'View Any Status', 'slug' => 'view-any-status'],
+            ['name' => 'Edit Status', 'slug' => 'edit-status'],
+            ['name' => 'Update Status', 'slug' => 'update-status'],
+            ['name' => 'Delete Status', 'slug' => 'delete-status'],
+            // Permissions
+
+            ['name' => 'Create Permission', 'slug' => 'create-permission'],
+            ['name' => 'View Permission', 'slug' => 'view-permission'],
+            ['name' => 'View Any Permission', 'slug' => 'view-any-permission'],
+            ['name' => 'Edit Permission', 'slug' => 'edit-permission'],
+            ['name' => 'Update Permission', 'slug' => 'update-permission'],
+            ['name' => 'Delete Permission', 'slug' => 'delete-permission'],
+            // Assignments
+
+            ['name' => 'Assign Role', 'slug' => 'assign-role'],
+            ['name' => 'Assign Status', 'slug' => 'assign-status'],
+            ['name' => 'Assign Permission', 'slug' => 'assign-permission'],
+        ];
+
+        $data = array_map(function ($permission) use ($now) {
+            return array_merge($permission, [
                 'created_at' => $now,
                 'updated_at' => $now,
-            ],
-            [
-                'name' => 'Read Role',
-                'slug' => 'roles.read',
-                'created_at' => $now,
-                'updated_at' => $now,
-            ],
-            [
-                'name' => 'Update Role',
-                'slug' => 'roles.update',
-                'created_at' => $now,
-                'updated_at' => $now,
-            ],
-            [
-                'name' => 'Delete Role',
-                'slug' => 'roles.delete',
-                'created_at' => $now,
-                'updated_at' => $now,
-            ],
-            [
-                'name' => 'Create Status',
-                'slug' => 'statuses.create',
-                'created_at' => $now,
-                'updated_at' => $now,
-            ],
-            [
-                'name' => 'Read Status',
-                'slug' => 'statuses.read',
-                'created_at' => $now,
-                'updated_at' => $now,
-            ],
-            [
-                'name' => 'Update Status',
-                'slug' => 'statuses.update',
-                'created_at' => $now,
-                'updated_at' => $now,
-            ],
-            [
-                'name' => 'Delete Status',
-                'slug' => 'statuses.delete',
-                'created_at' => $now,
-                'updated_at' => $now,
-            ],
-            [
-                'name' => 'Create Permission',
-                'slug' => 'permissions.create',
-                'created_at' => $now,
-                'updated_at' => $now,
-            ],
-            [
-                'name' => 'Read Permission',
-                'slug' => 'permissions.read',
-                'created_at' => $now,
-                'updated_at' => $now,
-            ],
-            [
-                'name' => 'Update Permission',
-                'slug' => 'permissions.update',
-                'created_at' => $now,
-                'updated_at' => $now,
-            ],
-            [
-                'name' => 'Delete Permission',
-                'slug' => 'permissions.delete',
-                'created_at' => $now,
-                'updated_at' => $now,
-            ],
-            // Optional assignment permissions
-            [
-                'name' => 'Assign Role',
-                'slug' => 'roles.assign',
-                'created_at' => $now,
-                'updated_at' => $now,
-            ],
-            [
-                'name' => 'Assign Status',
-                'slug' => 'statuses.assign',
-                'created_at' => $now,
-                'updated_at' => $now,
-            ],
-            [
-                'name' => 'Assign Permission',
-                'slug' => 'permissions.assign',
-                'created_at' => $now,
-                'updated_at' => $now,
-            ],
-        ]);
+            ]);
+        }, $permissions);
+
+        DB::table('permissions')->insert($data);
 
     }
 
