@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Contracts\Permissions\PermissionInterface;
 use App\Contracts\Roles\RoleInterface;
 use App\Contracts\Statuses\StatusInterface;
+use App\Repositories\EloquentPermissionRepository;
 use App\Repositories\EloquentRoleRepository;
 use App\Repositories\EloquentStatusRepository;
 use Carbon\CarbonImmutable;
@@ -22,6 +24,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind(StatusInterface::class, EloquentStatusRepository::class);
         $this->app->bind(RoleInterface::class, EloquentRoleRepository::class);
+        $this->app->bind(PermissionInterface::class, EloquentPermissionRepository::class);
     }
 
     /**

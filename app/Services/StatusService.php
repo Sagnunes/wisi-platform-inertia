@@ -24,7 +24,7 @@ final readonly class StatusService
             ->toArray();
     }
 
-    public function finsdOne(int $id): StatusDTO
+    public function findOne(int $id): StatusDTO
     {
         return $this->toDto($this->repository->find($id));
     }

@@ -46,7 +46,7 @@ const editStatus = (slug: string) => {
             </div>
             <div class="mt-8 flow-root overflow-hidden">
                 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <table class="w-full text-left">
+                    <table class="w-full text-left" v-if="statuses.length > 0">
                         <thead class="bg-white">
                             <tr>
                                 <th scope="col" class="relative isolate py-3.5 pr-3 text-left text-sm font-semibold text-gray-900">
@@ -79,6 +79,7 @@ const editStatus = (slug: string) => {
                             </tr>
                         </tbody>
                     </table>
+                    <p class="mt-1 truncate text-sm text-gray-500" v-else> No records. </p>
                 </div>
             </div>
         </div>

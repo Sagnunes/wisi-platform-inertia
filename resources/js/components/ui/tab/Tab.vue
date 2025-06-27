@@ -9,7 +9,7 @@ const tabs = [
     { name: 'Users', href: '/users', current: false },
     { name: 'Statuses', href: '/statuses', current: false },
     { name: 'Roles', href: '/roles', current: false },
-    { name: 'Billing', href: '#', current: false }
+    { name: 'Permission', href: '/permissions', current: false }
 ].map(tab => ({
     ...tab,
     current: tab.href === currentUrl
