@@ -4,28 +4,48 @@ namespace App\Repositories;
 
 use App\Contracts\Statuses\StatusInterface;
 use App\Models\Status;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class EloquentStatusRepository implements StatusInterface
 {
+    protected Status $model;
+
     /**
-     * The columns to select from the status table
+     * The columns to select from the Status table
      */
+
     private const STATUS_LIST_COLUMNS = ['id', 'name', 'slug', 'description', 'created_at', 'updated_at'];
+
+    public function __construct(Status $model)
+    {
+        $this->model = $model;
+    }
+
+    private function baseQuery(): Builder
+    {
+        return $this->model->query()->select(self::STATUS_LIST_COLUMNS)->orderBy('name');
+    }
 
     public function all(): Collection
     {
-        return Status::query()->select(self::STATUS_LIST_COLUMNS)->orderBy('name')->get();
+        return $this->baseQuery()->get();
+    }
+
+    public function statusesPaginated(int $perPage): LengthAwarePaginator
+    {
+        return $this->baseQuery()->paginate($perPage)->withQueryString();
     }
 
     public function find(int $id): Status
     {
-        return Status::query()->select(self::STATUS_LIST_COLUMNS)->findOrFail($id);
+        return $this->baseQuery()->findOrFail($id);
     }
 
     public function create(array $data): Status
     {
-        return Status::query()->create($data);
+        return $this->model->create($data);
     }
 
     public function update(Status $status, array $data): Status

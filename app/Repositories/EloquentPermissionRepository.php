@@ -4,28 +4,48 @@ namespace App\Repositories;
 
 use App\Contracts\Permissions\PermissionInterface;
 use App\Models\Permission;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class EloquentPermissionRepository implements PermissionInterface
 {
+    protected Permission $model;
+
+
     /**
      * The columns to select from the permission table
      */
     private const PERMISSION_LIST_COLUMNS = ['id', 'name', 'slug', 'created_at', 'updated_at'];
 
+    public function __construct(Permission $model)
+    {
+        $this->model = $model;
+    }
+
+    private function baseQuery(): Builder
+    {
+        return $this->model->query()->select(self::PERMISSION_LIST_COLUMNS)->orderBy('name');
+    }
+
     public function all(): Collection
     {
-        return Permission::query()->select(self::PERMISSION_LIST_COLUMNS)->orderBy('name')->get();
+        return $this->baseQuery()->get();
+    }
+
+    public function permissionsPaginated(int $perPage): LengthAwarePaginator
+    {
+        return $this->baseQuery()->paginate($perPage)->withQueryString();
     }
 
     public function find(int $id): Permission
     {
-        return Permission::query()->select(self::PERMISSION_LIST_COLUMNS)->findOrFail($id);
+        return $this->baseQuery()->findOrFail($id);
     }
 
     public function create(array $data): Permission
     {
-        return Permission::query()->create($data);
+        return $this->model->create($data);
     }
 
     public function update(Permission $permission, array $data): Permission

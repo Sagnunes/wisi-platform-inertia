@@ -13,14 +13,16 @@ class RoleController extends Controller
 {
     public function __construct(
         private readonly RoleService $roleService,
-    ) {}
+    )
+    {
+    }
 
     /**
      * Display a listing of the resource.
      */
     public function index(): \Inertia\Response
     {
-        return Inertia::render('roles/Index', ['roles' => $this->roleService->allRoles()]);
+        return Inertia::render('roles/Index', ['roles' => $this->roleService->allRolesPaginated()]);
     }
 
     /**
@@ -64,8 +66,12 @@ class RoleController extends Controller
      */
     public function destroy(Role $role): \Illuminate\Http\RedirectResponse
     {
+        $currentPage = request()->input('page', 1);
+
         $this->roleService->delete($role);
 
-        return to_route('roles.index')->with('success', 'Role deleted successfully.');
+        return to_route('roles.index', ['page' => $currentPage])
+            ->with('success', 'Role deleted successfully.')
+            ->with('preserveScroll', true);
     }
 }

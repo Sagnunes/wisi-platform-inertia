@@ -20,7 +20,7 @@ class StatusController extends Controller
      */
     public function index(): \Inertia\Response
     {
-        return Inertia::render('statuses/Index', ['statuses' => $this->statusService->allStatuses()]);
+        return Inertia::render('statuses/Index', ['statuses' => $this->statusService->allStatusesPaginated()]);
     }
 
     /**
@@ -64,8 +64,12 @@ class StatusController extends Controller
      */
     public function destroy(Status $status): \Illuminate\Http\RedirectResponse
     {
+        $currentPage = request()->input('page', 1);
+
         $this->statusService->delete($status);
 
-        return to_route('statuses.index')->with('success', 'Status deleted successfully.');
+        return to_route('statuses.index', ['page' => $currentPage])
+            ->with('success', 'Status deleted successfully.')
+            ->with('preserveScroll', true);
     }
 }

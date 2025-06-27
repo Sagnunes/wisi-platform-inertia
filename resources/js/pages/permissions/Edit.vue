@@ -5,9 +5,9 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
+import { Permission } from '@/types/user/permissions';
 import { Head, useForm } from '@inertiajs/vue3';
 import { PropType } from 'vue';
-import { Permission } from '@/types/user/permissions';
 
 const props = defineProps({
     permission: {

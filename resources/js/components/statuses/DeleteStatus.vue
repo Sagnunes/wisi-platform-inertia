@@ -10,15 +10,16 @@ import {
     DialogTitle,
     DialogTrigger,
 } from '@/components/ui/dialog';
-import { Status } from '@/types/user/status';
+import { StatusDTO } from '@/types/admin-panel/types';
 import { useForm } from '@inertiajs/vue3';
 import { PropType } from 'vue';
 
-defineProps({
+const props = defineProps({
     status: {
-        type: Object as PropType<Status>,
+        type: Object as PropType<StatusDTO>,
         required: true,
     },
+    currentPage: { required: true, type: Number },
 });
 
 const form = useForm({});
@@ -28,10 +29,17 @@ const closeModal = () => {
     form.reset();
 };
 
-const deleteStatus = (status: Status) => {
-    form.delete(route('statuses.destroy', status), {
-        onSuccess: () => closeModal(),
-    });
+const deleteStatus = () => {
+    form.delete(
+        route('statuses.destroy', {
+            status: props.status?.id,
+            page: props.currentPage,
+        }),
+        {
+            preserveScroll: true,
+            preserveState: true,
+        },
+    );
 };
 </script>
 

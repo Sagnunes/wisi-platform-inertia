@@ -11,14 +11,16 @@ use Inertia\Inertia;
 
 class PermissionController extends Controller
 {
-    public function __construct(private readonly PermissionService $permissionService) {}
+    public function __construct(private readonly PermissionService $permissionService)
+    {
+    }
 
     /**
      * Display a listing of the resource.
      */
     public function index(): \Inertia\Response
     {
-        return Inertia::render('permissions/Index', ['permissions' => $this->permissionService->allPermissions()]);
+        return Inertia::render('permissions/Index', ['permissions' => $this->permissionService->allPermissionsPaginated()]);
     }
 
     /**
@@ -62,8 +64,12 @@ class PermissionController extends Controller
      */
     public function destroy(Permission $permission): \Illuminate\Http\RedirectResponse
     {
+        $currentPage = request()->input('page', 1);
+
         $this->permissionService->delete($permission);
 
-        return to_route('permissions.index')->with('success', 'Permission deleted successfully.');
+        return to_route('permissions.index', ['page' => $currentPage])
+            ->with('success', 'Permission deleted successfully.')
+            ->with('preserveScroll', true);
     }
 }

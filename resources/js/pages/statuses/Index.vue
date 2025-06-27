@@ -1,14 +1,16 @@
 <script setup lang="ts">
 import TextLink from '@/components/TextLink.vue';
-import CreateStatus from '@/components/statuses/CreateStatus.vue';
-import DeleteStatus from '@/components/statuses/DeleteStatus.vue';
-import AppLayout from '@/layouts/AppLayout.vue';
-import { type BreadcrumbItem } from '@/types';
-import { Status } from '@/types/user/status';
-import { Head } from '@inertiajs/vue3';
-import { PropType } from 'vue';
+import CreateDialog from '@/components/reuse/CreateDialog.vue';
+import DeleteDialog from '@/components/reuse/DeleteDialog.vue';
+import { Button } from '@/components/ui/button';
+import Pagination from '@/components/ui/pagination/Pagination.vue';
 import Tab from '@/components/ui/tab/Tab.vue';
 import FlashMessage from '@/components/ui/toast/FlashMessage.vue';
+import AppLayout from '@/layouts/AppLayout.vue';
+import { type BreadcrumbItem } from '@/types';
+import { Paginator, StatusDTO } from '@/types/admin-panel/types';
+import { Head } from '@inertiajs/vue3';
+import { PropType } from 'vue';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -17,8 +19,13 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
+const fields = [
+    { name: 'name', placeholder: 'Name', required: true },
+    { name: 'description', placeholder: 'Description' },
+];
+
 defineProps({
-    statuses: { type: Array as PropType<Status[]>, required: true },
+    statuses: { type: Object as PropType<Paginator<StatusDTO>>, required: true },
 });
 
 const editStatus = (slug: string) => {
@@ -32,21 +39,30 @@ const editStatus = (slug: string) => {
     <AppLayout :breadcrumbs="breadcrumbs">
         <div>
             <FlashMessage />
-            <div class="mx-auto max-w-7xl px-4 sm:px-6 sm:pt-4 lg:px-8 lg:pt-4 lg:space-y-8">
-                <Tab/>
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 sm:pt-4 lg:space-y-8 lg:px-8 lg:pt-4">
+                <Tab />
                 <div class="sm:flex sm:items-center">
                     <div class="sm:flex-auto">
                         <h1 class="text-base font-semibold text-gray-900">Statuses</h1>
                         <p class="mt-2 text-sm text-gray-700">A list of all the users in your account including their name, title, email and role.</p>
                     </div>
                     <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
-                        <CreateStatus />
+                        <CreateDialog
+                            resource-name="status"
+                            route-name="statuses.store"
+                            :fields="fields"
+                            :initial-form-data="{ name: '', description: '' }"
+                        >
+                            <template #trigger>
+                                <Button variant="link" class="hover:cursor-pointer"> New Status</Button>
+                            </template>
+                        </CreateDialog>
                     </div>
                 </div>
             </div>
             <div class="mt-8 flow-root overflow-hidden">
                 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <table class="w-full text-left" v-if="statuses.length > 0">
+                    <table class="w-full text-left" v-if="statuses.data.length > 0">
                         <thead class="bg-white">
                             <tr>
                                 <th scope="col" class="relative isolate py-3.5 pr-3 text-left text-sm font-semibold text-gray-900">
@@ -64,7 +80,7 @@ const editStatus = (slug: string) => {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="status in statuses" :key="status.id">
+                            <tr v-for="status in statuses.data" :key="status.id">
                                 <td class="relative py-4 pr-3 text-sm font-medium text-gray-900">
                                     {{ status.name }}
                                     <div class="absolute right-full bottom-0 h-px w-screen bg-gray-100" />
@@ -74,12 +90,30 @@ const editStatus = (slug: string) => {
                                 <td class="hidden px-3 py-4 text-sm text-gray-500 md:table-cell">{{ status.created_at }}</td>
                                 <td class="relative py-4 pl-3 text-right text-sm font-medium">
                                     <TextLink :href="editStatus(status.slug)"> Edit</TextLink>
-                                    <DeleteStatus :status />
+                                    <DeleteDialog
+                                        :resource="status"
+                                        resource-name="status"
+                                        route-name="statuses.destroy"
+                                        :current-page="statuses.current_page"
+                                    >
+                                        <template #trigger>
+                                            <Button variant="link" class="hover:cursor-pointer">Delete Status</Button>
+                                        </template>
+                                    </DeleteDialog>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
-                    <p class="mt-1 truncate text-sm text-gray-500" v-else> No records. </p>
+                    <p class="mt-1 truncate text-sm text-gray-500" v-else>No records.</p>
+                </div>
+                <div class="my-4 flex items-center justify-center" v-if="statuses.total > statuses.per_page">
+                    <Pagination
+                        :pagination="statuses"
+                        @page-change="
+                            (page) =>
+                                $inertia.get('/statuses', { page }, { preserveScroll: true, preserveState: true, replace: true, only: ['statuses'] })
+                        "
+                    />
                 </div>
             </div>
         </div>
