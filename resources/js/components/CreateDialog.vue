@@ -108,7 +108,9 @@ const submit = () => {
                     <DialogClose as-child>
                         <Button variant="secondary" @click="closeModal">Cancel</Button>
                     </DialogClose>
-                    <Button type="submit" variant="default" :disabled="form.processing"> Create</Button>
+                    <Button type="submit" variant="default" :disabled="form.processing">
+                        Create</Button
+                    >
                 </DialogFooter>
             </form>
         </DialogContent>

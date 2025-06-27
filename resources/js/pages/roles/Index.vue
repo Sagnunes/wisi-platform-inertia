@@ -58,7 +58,9 @@ const editPermissionUrl = (slug: string) => {
                             :initial-form-data="{ name: '', description: '' }"
                         >
                             <template #trigger>
-                                <Button variant="link" class="hover:cursor-pointer"> New Role</Button>
+                                <Button variant="link" class="hover:cursor-pointer">
+                                    New Role</Button
+                                >
                             </template>
                         </CreateDialog>
                     </div>
@@ -69,15 +71,30 @@ const editPermissionUrl = (slug: string) => {
                     <table class="w-full text-left" v-if="roles.data.length > 0">
                         <thead class="bg-white">
                             <tr>
-                                <th scope="col" class="relative isolate py-3.5 pr-3 text-left text-sm font-semibold text-gray-900">
+                                <th
+                                    scope="col"
+                                    class="relative isolate py-3.5 pr-3 text-left text-sm font-semibold text-gray-900"
+                                >
                                     Name
-                                    <div class="absolute inset-y-0 right-full -z-10 w-screen border-b border-b-gray-200" />
-                                    <div class="absolute inset-y-0 left-0 -z-10 w-screen border-b border-b-gray-200" />
+                                    <div
+                                        class="absolute inset-y-0 right-full -z-10 w-screen border-b border-b-gray-200"
+                                    />
+                                    <div
+                                        class="absolute inset-y-0 left-0 -z-10 w-screen border-b border-b-gray-200"
+                                    />
                                 </th>
-                                <th scope="col" class="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 sm:table-cell">
+                                <th
+                                    scope="col"
+                                    class="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 sm:table-cell"
+                                >
                                     Description
                                 </th>
-                                <th scope="col" class="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 md:table-cell">Created at</th>
+                                <th
+                                    scope="col"
+                                    class="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 md:table-cell"
+                                >
+                                    Created at
+                                </th>
                                 <th scope="col" class="relative py-3.5 pl-3">
                                     <span class="sr-only">Edit</span>
                                 </th>
@@ -87,30 +104,60 @@ const editPermissionUrl = (slug: string) => {
                             <tr v-for="role in roles.data" :key="role.id">
                                 <td class="relative py-4 pr-3 text-sm font-medium text-gray-900">
                                     {{ role.name }}
-                                    <div class="absolute right-full bottom-0 h-px w-screen bg-gray-100" />
-                                    <div class="absolute bottom-0 left-0 h-px w-screen bg-gray-100" />
+                                    <div
+                                        class="absolute right-full bottom-0 h-px w-screen bg-gray-100"
+                                    />
+                                    <div
+                                        class="absolute bottom-0 left-0 h-px w-screen bg-gray-100"
+                                    />
                                 </td>
-                                <td class="hidden px-3 py-4 text-sm text-gray-500 sm:table-cell">{{ role.description }}</td>
-                                <td class="hidden px-3 py-4 text-sm text-gray-500 md:table-cell">{{ role.created_at }}</td>
+                                <td class="hidden px-3 py-4 text-sm text-gray-500 sm:table-cell">
+                                    {{ role.description }}
+                                </td>
+                                <td class="hidden px-3 py-4 text-sm text-gray-500 md:table-cell">
+                                    {{ role.created_at }}
+                                </td>
                                 <td class="relative py-4 pl-3 text-right text-sm font-medium">
                                     <TextLink :href="editRoleUrl(role.slug)"> Edit</TextLink>
-                                    <DeleteDialog :resource="role" resource-name="role" route-name="roles.destroy" :current-page="roles.current_page">
+                                    <DeleteDialog
+                                        :resource="role"
+                                        resource-name="role"
+                                        route-name="roles.destroy"
+                                        :current-page="roles.current_page"
+                                    >
                                         <template #trigger>
-                                            <Button variant="link" class="hover:cursor-pointer">Delete Role</Button>
+                                            <Button variant="link" class="hover:cursor-pointer"
+                                                >Delete Role</Button
+                                            >
                                         </template>
                                     </DeleteDialog>
-                                    <TextLink :href="editPermissionUrl(role.slug)"> Assign</TextLink>
+                                    <TextLink :href="editPermissionUrl(role.slug)">
+                                        Assign</TextLink
+                                    >
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                     <p class="mt-1 truncate text-sm text-gray-500" v-else>No records.</p>
                 </div>
-                <div class="my-4 flex items-center justify-center" v-if="roles.total > roles.per_page">
+                <div
+                    class="my-4 flex items-center justify-center"
+                    v-if="roles.total > roles.per_page"
+                >
                     <Pagination
                         :pagination="roles"
                         @page-change="
-                            (page) => $inertia.get('/roles', { page }, { preserveScroll: true, preserveState: true, replace: true, only: ['roles'] })
+                            (page) =>
+                                $inertia.get(
+                                    '/roles',
+                                    { page },
+                                    {
+                                        preserveScroll: true,
+                                        preserveState: true,
+                                        replace: true,
+                                        only: ['roles'],
+                                    },
+                                )
                         "
                     />
                 </div>

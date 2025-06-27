@@ -50,7 +50,9 @@ const submit = (e: Event) => {
             <form @submit="submit">
                 <div class="mx-auto max-w-2xl px-4 lg:max-w-none lg:px-0">
                     <div>
-                        <h3 id="status-info-heading" class="text-lg font-medium text-gray-900">Editing Permission - {{ permission.name }}</h3>
+                        <h3 id="status-info-heading" class="text-lg font-medium text-gray-900">
+                            Editing Permission - {{ permission.name }}
+                        </h3>
                         <div class="mt-6">
                             <Label>Name</Label>
                             <div class="mt-2">
@@ -70,7 +72,12 @@ const submit = (e: Event) => {
                                 leave-active-class="transition ease-in-out"
                                 leave-to-class="opacity-0"
                             >
-                                <p v-show="form.recentlySuccessful" class="text-sm text-neutral-600">Saved.</p>
+                                <p
+                                    v-show="form.recentlySuccessful"
+                                    class="text-sm text-neutral-600"
+                                >
+                                    Saved.
+                                </p>
                             </Transition>
                         </div>
                     </div>

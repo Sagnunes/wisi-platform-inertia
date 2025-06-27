@@ -72,9 +72,12 @@ const deleteResource = () => {
         <DialogContent>
             <form @submit.prevent="deleteResource">
                 <DialogHeader class="space-y-3">
-                    <DialogTitle> Are you sure you want to delete "{{ resource.name || resource.title }}" </DialogTitle>
+                    <DialogTitle>
+                        Are you sure you want to delete "{{ resource.name || resource.title }}"
+                    </DialogTitle>
                     <DialogDescription>
-                        Once the {{ resourceName }} is deleted, all of its resources and data will also be permanently deleted.
+                        Once the {{ resourceName }} is deleted, all of its resources and data will
+                        also be permanently deleted.
                     </DialogDescription>
                 </DialogHeader>
                 <DialogFooter>

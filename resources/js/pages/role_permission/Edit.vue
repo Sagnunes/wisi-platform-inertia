@@ -52,7 +52,9 @@ const submit = () => {
             <form @submit.prevent="submit">
                 <div class="mx-auto max-w-2xl px-4 lg:max-w-none lg:px-0">
                     <div>
-                        <h3 id="status-info-heading" class="text-lg font-medium text-gray-900">Giving Permissions to - {{ props.role?.name }}</h3>
+                        <h3 id="status-info-heading" class="text-lg font-medium text-gray-900">
+                            Giving Permissions to - {{ props.role?.name }}
+                        </h3>
                         <div class="mt-6">
                             <Label>Permissions</Label>
                             <div class="mt-2 grid grid-cols-1">
@@ -64,7 +66,11 @@ const submit = () => {
                                     name="permissions[]"
                                     class="h-[500px] w-full rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 outline-gray-300 focus:outline-2 focus:outline-gray-600 sm:text-sm/6"
                                 >
-                                    <option v-for="permission in permissions" :value="permission.id" :key="permission.id">
+                                    <option
+                                        v-for="permission in permissions"
+                                        :value="permission.id"
+                                        :key="permission.id"
+                                    >
                                         {{ permission.name }}
                                     </option>
                                 </select>
@@ -82,7 +88,12 @@ const submit = () => {
                                 leave-active-class="transition ease-in-out"
                                 leave-to-class="opacity-0"
                             >
-                                <p v-show="form.recentlySuccessful" class="text-sm text-neutral-600">Saved.</p>
+                                <p
+                                    v-show="form.recentlySuccessful"
+                                    class="text-sm text-neutral-600"
+                                >
+                                    Saved.
+                                </p>
                             </Transition>
                         </div>
                     </div>
