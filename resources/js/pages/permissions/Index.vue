@@ -23,8 +23,16 @@ const fields = [{ name: 'name', placeholder: 'Name', required: true }];
 
 defineProps({
     permissions: { type: Object as PropType<Paginator<PermissionDTO>>, required: true },
+    can: {
+        type: Object,
+        required: true,
+        default: () => ({
+            create: false,
+            edit: false,
+            delete: false,
+        }),
+    },
 });
-
 const editUrl = (slug: string) => {
     return '/permissions/' + slug + '/edit';
 };
@@ -49,11 +57,12 @@ const editUrl = (slug: string) => {
                             route-name="permissions.store"
                             :fields="fields"
                             :initial-form-data="{ name: '' }"
+                            v-if="can.create"
                         >
                             <template #trigger>
                                 <Button variant="link" class="hover:cursor-pointer">
-                                    New Permission</Button
-                                >
+                                    New Permission
+                                </Button>
                             </template>
                         </CreateDialog>
                     </div>
@@ -102,17 +111,20 @@ const editUrl = (slug: string) => {
                                     {{ permission.created_at }}
                                 </td>
                                 <td class="relative py-4 pl-3 text-right text-sm font-medium">
-                                    <TextLink :href="editUrl(permission.slug)"> Edit</TextLink>
+                                    <TextLink :href="editUrl(permission.slug)" v-if="can.edit">
+                                        Edit
+                                    </TextLink>
                                     <DeleteDialog
                                         :resource="permission"
                                         resource-name="permission"
                                         route-name="permissions.destroy"
                                         :current-page="permissions.current_page"
+                                        v-if="can.delete"
                                     >
                                         <template #trigger>
                                             <Button variant="link" class="hover:cursor-pointer"
-                                                >Delete Permission</Button
-                                            >
+                                                >Delete Permission
+                                            </Button>
                                         </template>
                                     </DeleteDialog>
                                 </td>

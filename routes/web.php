@@ -23,11 +23,13 @@ Route::middleware(['can:manage,App\Models\Status'])->group(function () {
 Route::resource('roles', RoleController::class)->middleware(['auth', 'verified'])->except(['edit', 'create']);
 Route::get('roles/{role:slug}/edit', [RoleController::class, 'edit'])->middleware(['auth', 'verified'])->name('roles.edit');
 
-Route::resource('permissions', PermissionController::class)->middleware(['auth', 'verified'])->except(['edit', 'create']);
-Route::get('permissions/{permission:slug}/edit', [PermissionController::class, 'edit'])->middleware(['auth', 'verified'])->name('permission.edit');
+Route::middleware(['can:manage,App\Models\Permission'])->group(function () {
+    Route::resource('permissions', PermissionController::class)->middleware(['auth', 'verified'])->except(['edit', 'create']);
+    Route::get('permissions/{permission:slug}/edit', [PermissionController::class, 'edit'])->middleware(['auth', 'verified'])->name('permission.edit');
 
+});
 Route::get('role/{role:slug}/permission/edit', [RolePermissionController::class, 'edit'])->middleware(['auth', 'verified'])->name('role_permission.edit');
 Route::put('role/{role:id}/permission', [RolePermissionController::class, 'update'])->middleware(['auth', 'verified'])->name('role_permission.update');
 
-require __DIR__.'/settings.php';
-require __DIR__.'/auth.php';
+require __DIR__ . '/settings.php';
+require __DIR__ . '/auth.php';

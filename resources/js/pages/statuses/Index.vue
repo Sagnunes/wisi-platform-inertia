@@ -26,7 +26,7 @@ const fields = [
 
 defineProps({
     statuses: { type: Object as PropType<Paginator<StatusDTO>>, required: true },
-    can: {type: Object, required: true},
+    can: { type: Object, required: true },
 });
 
 const editStatus = (slug: string) => {
@@ -119,7 +119,9 @@ const editStatus = (slug: string) => {
                                     {{ status.created_at }}
                                 </td>
                                 <td class="relative py-4 pl-3 text-right text-sm font-medium">
-                                    <TextLink :href="editStatus(status.slug)" v-if="can.edit"> Edit</TextLink>
+                                    <TextLink :href="editStatus(status.slug)" v-if="can.edit">
+                                        Edit</TextLink
+                                    >
                                     <DeleteDialog
                                         :resource="status"
                                         resource-name="status"
