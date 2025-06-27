@@ -40,7 +40,7 @@ class EloquentRoleRepository implements RoleInterface
         return $role->delete();
     }
 
-    public function findOneWithPermissions($roleID): Collection
+    public function findOneWithPermissions($roleID): Role
     {
         return Role::query()
             ->select(self::ROLE_LIST_COLUMNS)

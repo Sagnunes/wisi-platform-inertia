@@ -17,5 +17,5 @@ interface RoleInterface
 
     public function delete(Role $role): bool;
 
-    public function findOneWithPermissions($roleID): Collection;
+    public function findOneWithPermissions($roleID): Role;
 }

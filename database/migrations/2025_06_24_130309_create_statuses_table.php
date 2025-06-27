@@ -20,10 +20,11 @@ return new class extends Migration
             $table->timestamps();
         });
 
+        $now = Carbon\Carbon::now();
         DB::table('statuses')->insert([
-            ['name' => 'Pendente', 'slug' => 'pendente', 'created_at' => \Carbon\Carbon::now()],
-            ['name' => 'Ativo', 'slug' => 'ativo', 'created_at' => \Carbon\Carbon::now()],
-            ['name' => 'Bloqueado', 'slug' => 'bloqueado', 'created_at' => \Carbon\Carbon::now()],
+            ['name' => 'Pendente', 'slug' => 'pendente', 'created_at' => $now],
+            ['name' => 'Ativo', 'slug' => 'ativo', 'created_at' => $now],
+            ['name' => 'Bloqueado', 'slug' => 'bloqueado', 'created_at' => $now],
         ]);
     }
 

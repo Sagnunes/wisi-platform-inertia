@@ -6,6 +6,7 @@ namespace App\Services;
 
 use App\Contracts\Permissions\PermissionInterface;
 use App\Contracts\Roles\RoleInterface;
+use App\Models\Role;
 use Illuminate\Database\Eloquent\Collection;
 
 final readonly class RolePermissionService
@@ -20,7 +21,7 @@ final readonly class RolePermissionService
         return $this->permissionRepository->all();
     }
 
-    public function roleWithPermissions($roleId): Collection
+    public function roleWithPermissions($roleId): Role
     {
         return $this->roleRepository->findOneWithPermissions($roleId);
     }
