@@ -1,0 +1,173 @@
+<script setup lang="ts">
+import CreateDialog from '@/components/CreateDialog.vue';
+import DeleteDialog from '@/components/DeleteDialog.vue';
+import TextLink from '@/components/TextLink.vue';
+import { Button } from '@/components/ui/button';
+import Pagination from '@/components/ui/pagination/Pagination.vue';
+import Tab from '@/components/ui/tab/Tab.vue';
+import FlashMessage from '@/components/ui/toast/FlashMessage.vue';
+import AppLayout from '@/layouts/AppLayout.vue';
+import { type BreadcrumbItem, User } from '@/types';
+import { Paginator } from '@/types/admin-panel/types';
+import { Head } from '@inertiajs/vue3';
+import { PropType } from 'vue';
+
+const breadcrumbs: BreadcrumbItem[] = [
+    {
+        title: 'Users',
+        href: '/',
+    },
+];
+
+const fields = [
+    { name: 'name', placeholder: 'Name', required: true },
+    { name: 'Email', placeholder: 'Email' },
+];
+
+defineProps({
+    users: { type: Object as PropType<Paginator<User>>, required: true },
+    can: { type: Object, required: true },
+});
+
+const editStatus = (slug: string) => {
+    return '/users/' + slug + '/edit';
+};
+</script>
+
+<template>
+    <Head title="Users" />
+
+    <AppLayout :breadcrumbs="breadcrumbs">
+        <div>
+            <FlashMessage />
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 sm:pt-4 lg:space-y-8 lg:px-8 lg:pt-4">
+                <Tab :permissions="can" />
+                <div class="sm:flex sm:items-center">
+                    <div class="sm:flex-auto">
+                        <h1 class="text-base font-semibold text-gray-900">Users</h1>
+                        <p class="mt-2 text-sm text-gray-700">
+                            A list of all the users in your account including their name, title,
+                            email and role.
+                        </p>
+                    </div>
+                    <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
+                        <CreateDialog
+                            resource-name="user"
+                            route-name="users.store"
+                            :fields="fields"
+                            :initial-form-data="{ name: '', description: '' }"
+                        >
+                            <template #trigger>
+                                <Button variant="link" class="hover:cursor-pointer">
+                                    New User
+                                </Button>
+                            </template>
+                        </CreateDialog>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-8 flow-root overflow-hidden">
+                <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                    <table class="w-full text-left" v-if="users.data.length > 0">
+                        <thead class="bg-white">
+                            <tr>
+                                <th
+                                    scope="col"
+                                    class="relative isolate py-3.5 pr-3 text-left text-sm font-semibold text-gray-900"
+                                >
+                                    Name
+                                    <div
+                                        class="absolute inset-y-0 right-full -z-10 w-screen border-b border-b-gray-200"
+                                    />
+                                    <div
+                                        class="absolute inset-y-0 left-0 -z-10 w-screen border-b border-b-gray-200"
+                                    />
+                                </th>
+                                <th
+                                    scope="col"
+                                    class="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 sm:table-cell"
+                                >
+                                    Email
+                                </th>
+                                <th
+                                    scope="col"
+                                    class="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 sm:table-cell"
+                                >
+                                    Roles
+                                </th>
+                                <th
+                                    scope="col"
+                                    class="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 md:table-cell"
+                                >
+                                    Created at
+                                </th>
+                                <th scope="col" class="relative py-3.5 pl-3">
+                                    <span class="sr-only">Edit</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="user in users.data" :key="user.id">
+                                <td class="relative py-4 pr-3 text-sm font-medium text-gray-900">
+                                    {{ user.name }}
+                                    <div
+                                        class="absolute right-full bottom-0 h-px w-screen bg-gray-100"
+                                    />
+                                    <div
+                                        class="absolute bottom-0 left-0 h-px w-screen bg-gray-100"
+                                    />
+                                </td>
+                                <td class="hidden px-3 py-4 text-sm text-gray-500 sm:table-cell">
+                                    {{ user.email }}
+                                </td>
+                                <td class="hidden px-3 py-4 text-sm text-gray-500 sm:table-cell">
+                                   <span v-for="role in user.roles" :key="role.id">{{role.name}}</span>
+                                </td>
+                                <td class="hidden px-3 py-4 text-sm text-gray-500 md:table-cell">
+                                    {{ user.created_at }}
+                                </td>
+                                <td class="relative py-4 pl-3 text-right text-sm font-medium">
+                                    <TextLink :href="editStatus(user.slug)"> Edit</TextLink>
+                                    <DeleteDialog
+                                        :resource="user"
+                                        resource-name="status"
+                                        route-name="statuses.destroy"
+                                        :current-page="users.current_page"
+                                    >
+                                        <template #trigger>
+                                            <Button variant="link" class="hover:cursor-pointer"
+                                                >Delete Status
+                                            </Button>
+                                        </template>
+                                    </DeleteDialog>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="mt-1 truncate text-sm text-gray-500" v-else>No records.</p>
+                </div>
+                <div
+                    class="my-4 flex items-center justify-center"
+                    v-if="users.total > users.per_page"
+                >
+                    <Pagination
+                        :pagination="users"
+                        @page-change="
+                            (page) =>
+                                $inertia.get(
+                                    '/users',
+                                    { page },
+                                    {
+                                        preserveScroll: true,
+                                        preserveState: true,
+                                        replace: true,
+                                        only: ['users'],
+                                    },
+                                )
+                        "
+                    />
+                </div>
+            </div>
+        </div>
+    </AppLayout>
+</template>

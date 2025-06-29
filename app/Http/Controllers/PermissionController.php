@@ -31,7 +31,7 @@ class PermissionController extends Controller
                     'manage-statuses' => auth()->user()->can('manage', Status::class),
                     'manage-roles' => auth()->user()->can('manage', Role::class),
                     'manage-permissions' => auth()->user()->can('manage', Permission::class),
-                ]
+                ],
             ]);
     }
 

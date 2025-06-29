@@ -4,6 +4,7 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\RolePermissionController;
 use App\Http\Controllers\StatusController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -29,6 +30,9 @@ Route::middleware(['can:manage,App\Models\Permission'])->group(function () {
     Route::get('permissions/{permission:slug}/edit', [PermissionController::class, 'edit'])->middleware(['auth', 'verified'])->name('permission.edit');
 
 });
+
+Route::resource('users', UserController::class)->middleware(['auth', 'verified'])->only('index');
+
 Route::get('role/{role:slug}/permission/edit', [RolePermissionController::class, 'edit'])->middleware(['auth', 'verified'])->name('role_permission.edit');
 Route::put('role/{role:id}/permission', [RolePermissionController::class, 'update'])->middleware(['auth', 'verified'])->name('role_permission.update');
 
