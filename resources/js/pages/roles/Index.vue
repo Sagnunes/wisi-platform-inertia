@@ -45,7 +45,7 @@ const editPermissionUrl = (slug: string) => {
         <div>
             <FlashMessage />
             <div class="mx-auto max-w-7xl px-4 sm:px-6 sm:pt-4 lg:space-y-8 lg:px-8 lg:pt-4">
-                <Tab />
+                <Tab :permissions="can"/>
                 <div class="sm:flex sm:items-center">
                     <div class="sm:flex-auto">
                         <h1 class="text-base font-semibold text-gray-900">Roles</h1>
@@ -57,7 +57,6 @@ const editPermissionUrl = (slug: string) => {
                             route-name="roles.store"
                             :fields="fields"
                             :initial-form-data="{ name: '', description: '' }"
-                            v-if="can.create"
                         >
                             <template #trigger>
                                 <Button variant="link" class="hover:cursor-pointer">
@@ -120,13 +119,12 @@ const editPermissionUrl = (slug: string) => {
                                     {{ role.created_at }}
                                 </td>
                                 <td class="relative py-4 pl-3 text-right text-sm font-medium">
-                                    <TextLink :href="editRoleUrl(role.slug)" v-if="can.edit"> Edit</TextLink>
+                                    <TextLink :href="editRoleUrl(role.slug)"> Edit</TextLink>
                                     <DeleteDialog
                                         :resource="role"
                                         resource-name="role"
                                         route-name="roles.destroy"
                                         :current-page="roles.current_page"
-                                        v-if="can.delete"
                                     >
                                         <template #trigger>
                                             <Button variant="link" class="hover:cursor-pointer"
@@ -135,7 +133,7 @@ const editPermissionUrl = (slug: string) => {
                                         </template>
                                     </DeleteDialog>
                                     <TextLink :href="editPermissionUrl(role.slug)" v-if="can.assign">
-                                        Assign</TextLink
+                                        Permissions</TextLink
                                     >
                                 </td>
                             </tr>

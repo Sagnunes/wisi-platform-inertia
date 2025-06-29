@@ -20,9 +20,10 @@ Route::middleware(['can:manage,App\Models\Status'])->group(function () {
     Route::get('statuses/{status:slug}/edit', [StatusController::class, 'edit'])->middleware(['auth', 'verified'])->name('statuses.edit');
 });
 
-Route::resource('roles', RoleController::class)->middleware(['auth', 'verified'])->except(['edit', 'create']);
-Route::get('roles/{role:slug}/edit', [RoleController::class, 'edit'])->middleware(['auth', 'verified'])->name('roles.edit');
-
+Route::middleware(['can:manage,App\Models\Role'])->group(function () {
+    Route::resource('roles', RoleController::class)->middleware(['auth', 'verified'])->except(['edit', 'create']);
+    Route::get('roles/{role:slug}/edit', [RoleController::class, 'edit'])->middleware(['auth', 'verified'])->name('roles.edit');
+});
 Route::middleware(['can:manage,App\Models\Permission'])->group(function () {
     Route::resource('permissions', PermissionController::class)->middleware(['auth', 'verified'])->except(['edit', 'create']);
     Route::get('permissions/{permission:slug}/edit', [PermissionController::class, 'edit'])->middleware(['auth', 'verified'])->name('permission.edit');

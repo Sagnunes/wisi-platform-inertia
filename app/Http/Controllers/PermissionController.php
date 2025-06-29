@@ -6,9 +6,10 @@ use App\DTOs\Permission\PermissionDTO;
 use App\Http\Requests\Permissions\StorePermissionRequest;
 use App\Http\Requests\Permissions\UpdatePermissionRequest;
 use App\Models\Permission;
+use App\Models\Role;
+use App\Models\Status;
 use App\Services\PermissionService;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class PermissionController extends Controller
@@ -22,18 +23,15 @@ class PermissionController extends Controller
      */
     public function index(): \Inertia\Response
     {
-        $this->authorize('manage', Permission::class);
-
-        $canManage = Auth::user()->can('manage', Permission::class);
 
         return Inertia::render('permissions/Index',
             [
                 'permissions' => $this->permissionService->allPermissionsPaginated(),
                 'can' => [
-                    'create' => $canManage,
-                    'edit' => $canManage,
-                    'delete' => $canManage,
-                ],
+                    'manage-statuses' => auth()->user()->can('manage', Status::class),
+                    'manage-roles' => auth()->user()->can('manage', Role::class),
+                    'manage-permissions' => auth()->user()->can('manage', Permission::class),
+                ]
             ]);
     }
 
@@ -42,7 +40,6 @@ class PermissionController extends Controller
      */
     public function store(StorePermissionRequest $request): \Illuminate\Http\RedirectResponse
     {
-        $this->authorize('manage', Permission::class);
 
         $this->permissionService->create(PermissionDTO::fromRequest($request->validated()));
 
@@ -54,7 +51,6 @@ class PermissionController extends Controller
      */
     public function show(Permission $permission): \Inertia\Response
     {
-        $this->authorize('manage', Permission::class);
 
         return Inertia::render('permissions/Show', ['permission' => $permission]);
     }
@@ -64,7 +60,6 @@ class PermissionController extends Controller
      */
     public function edit(Permission $permission): \Inertia\Response
     {
-        $this->authorize('manage', Permission::class);
 
         return Inertia::render('permissions/Edit', ['permission' => $permission]);
     }
@@ -74,7 +69,6 @@ class PermissionController extends Controller
      */
     public function update(UpdatePermissionRequest $request, Permission $permission): \Illuminate\Http\RedirectResponse
     {
-        $this->authorize('manage', Permission::class);
 
         $this->permissionService->update($permission, PermissionDTO::fromRequest($request->validated()));
 
@@ -86,7 +80,6 @@ class PermissionController extends Controller
      */
     public function destroy(Permission $permission): \Illuminate\Http\RedirectResponse
     {
-        $this->authorize('manage', Permission::class);
 
         $currentPage = request()->input('page', 1);
 

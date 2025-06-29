@@ -5,11 +5,12 @@ namespace App\Http\Controllers;
 use App\DTOs\Status\StatusDTO;
 use App\Http\Requests\Statuses\StoreStatusRequest;
 use App\Http\Requests\Statuses\UpdateStatusRequest;
+use App\Models\Permission;
+use App\Models\Role;
 use App\Models\Status;
 use App\Services\StatusService;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -26,17 +27,13 @@ class StatusController extends Controller
      */
     public function index(): Response
     {
-        $this->authorize('manage', Status::class);
-
-        $canManage = Auth::user()->can('manage', Status::class);
-
         return Inertia::render('statuses/Index',
             [
                 'statuses' => $this->statusService->allStatusesPaginated(),
                 'can' => [
-                    'create' => $canManage,
-                    'edit' => $canManage,
-                    'delete' => $canManage,
+                    'manage-statuses' => auth()->user()->can('manage', Status::class),
+                    'manage-roles' => auth()->user()->can('manage', Role::class),
+                    'manage-permissions' => auth()->user()->can('manage', Permission::class),
                 ],
             ]
         );
@@ -47,7 +44,6 @@ class StatusController extends Controller
      */
     public function store(StoreStatusRequest $request): RedirectResponse
     {
-        $this->authorize('manage', Status::class);
 
         $this->statusService->create(StatusDTO::fromRequest($request->validated()));
 
@@ -59,7 +55,6 @@ class StatusController extends Controller
      */
     public function show(Status $status): Response
     {
-        $this->authorize('manage', Status::class);
 
         return Inertia::render('statuses/Show', compact('status'));
     }
@@ -69,7 +64,6 @@ class StatusController extends Controller
      */
     public function edit(Status $status): Response
     {
-        $this->authorize('manage', Status::class);
 
         return Inertia::render('statuses/Edit', compact('status'));
     }
@@ -79,7 +73,6 @@ class StatusController extends Controller
      */
     public function update(UpdateStatusRequest $request, Status $status): RedirectResponse
     {
-        $this->authorize('manage', Status::class);
 
         $this->statusService->update($status, StatusDTO::fromRequest($request->validated()));
 
@@ -91,7 +84,6 @@ class StatusController extends Controller
      */
     public function destroy(Status $status): RedirectResponse
     {
-        $this->authorize('manage', Status::class);
 
         $currentPage = request()->input('page', 1);
 

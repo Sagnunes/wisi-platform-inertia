@@ -7,6 +7,7 @@ use App\Http\Requests\Roles\StoreRoleRequest;
 use App\Http\Requests\Roles\UpdateRoleRequest;
 use App\Models\Permission;
 use App\Models\Role;
+use App\Models\Status;
 use App\Services\RoleService;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Auth;
@@ -25,16 +26,14 @@ class RoleController extends Controller
      */
     public function index(): \Inertia\Response
     {
-        $this->authorize('manage', Role::class);
-        $canManage = Auth::user()->can('manage', Role::class);
 
         return Inertia::render('roles/Index', [
             'roles' => $this->roleService->allRolesPaginated(),
             'can' => [
-                'create' => $canManage,
-                'edit' => $canManage,
-                'delete' => $canManage,
                 'assign' => Auth::user()->can('assign', Permission::class),
+                'manage-statuses' => auth()->user()->can('manage', Status::class),
+                'manage-roles' => auth()->user()->can('manage', Role::class),
+                'manage-permissions' => auth()->user()->can('manage', Permission::class),
             ],
         ]);
     }
@@ -44,7 +43,6 @@ class RoleController extends Controller
      */
     public function store(StoreRoleRequest $request): \Illuminate\Http\RedirectResponse
     {
-        $this->authorize('manage', Role::class);
 
         $this->roleService->create(RoleDTO::fromRequest($request->validated()));
 
@@ -56,7 +54,6 @@ class RoleController extends Controller
      */
     public function show(Role $role): \Inertia\Response
     {
-        $this->authorize('manage', Role::class);
 
         return Inertia::render('roles/Show', ['roles' => $role]);
     }
@@ -66,7 +63,6 @@ class RoleController extends Controller
      */
     public function edit(Role $role): \Inertia\Response
     {
-        $this->authorize('manage', Role::class);
 
         return Inertia::render('roles/Edit', ['role' => $role]);
     }
@@ -76,7 +72,6 @@ class RoleController extends Controller
      */
     public function update(UpdateRoleRequest $request, Role $role): \Illuminate\Http\RedirectResponse
     {
-        $this->authorize('manage', Role::class);
 
         $this->roleService->update($role, RoleDTO::fromRequest($request->validated()));
 
@@ -88,7 +83,6 @@ class RoleController extends Controller
      */
     public function destroy(Role $role): \Illuminate\Http\RedirectResponse
     {
-        $this->authorize('manage', Role::class);
 
         $currentPage = request()->input('page', 1);
 
