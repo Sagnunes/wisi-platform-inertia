@@ -73,11 +73,12 @@ class User extends Authenticatable
 
     public function hasPermission(string $permission): bool
     {
-        if (!isset($this->permissionCache[$permission])) {
+        if (! isset($this->permissionCache[$permission])) {
             $this->permissionCache[$permission] = $this->roles()
-                ->whereHas('permissions', fn($q) => $q->where('slug', $permission))
+                ->whereHas('permissions', fn ($q) => $q->where('slug', $permission))
                 ->exists();
         }
+
         return $this->permissionCache[$permission];
     }
 

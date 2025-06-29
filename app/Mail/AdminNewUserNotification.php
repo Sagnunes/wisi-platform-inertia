@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class NewUserRegistered extends Mailable
+class AdminNewUserNotification extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -29,7 +29,7 @@ class NewUserRegistered extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'New User Registered',
+            subject: 'Admin New User Notification',
         );
     }
 
@@ -39,7 +39,7 @@ class NewUserRegistered extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'mails.new_user_registered',
+            view: 'mails.new_user_notification',
         );
     }
 

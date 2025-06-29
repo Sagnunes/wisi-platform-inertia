@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\SendAdminNewUserNotification;
 use App\Jobs\SendWelcomeEmail;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
@@ -46,6 +47,8 @@ class RegisteredUserController extends Controller
         event(new Registered($user));
 
         SendWelcomeEmail::dispatch($user);
+        SendAdminNewUserNotification::dispatch($user);
+
         Auth::login($user);
 
         return to_route('dashboard');
