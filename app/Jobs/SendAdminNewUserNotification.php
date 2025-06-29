@@ -26,7 +26,7 @@ class SendAdminNewUserNotification implements ShouldQueue
 
     public function handle(): void
     {
-        Mail::to(ENV('STI_EMAIL', $this->STI_EMAIL))
+        Mail::to(ENV('IT_DEPARTMENT_EMAIL', $this->STI_EMAIL))
             ->send(new AdminNewUserNotification($this->user));
     }
 }
