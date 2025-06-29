@@ -21,6 +21,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 defineProps({
     roles: { type: Object as PropType<Paginator<RoleDTO>>, required: true },
+    can: { type: Object, required: true },
 });
 
 const fields = [
@@ -56,6 +57,7 @@ const editPermissionUrl = (slug: string) => {
                             route-name="roles.store"
                             :fields="fields"
                             :initial-form-data="{ name: '', description: '' }"
+                            v-if="can.create"
                         >
                             <template #trigger>
                                 <Button variant="link" class="hover:cursor-pointer">
@@ -118,12 +120,13 @@ const editPermissionUrl = (slug: string) => {
                                     {{ role.created_at }}
                                 </td>
                                 <td class="relative py-4 pl-3 text-right text-sm font-medium">
-                                    <TextLink :href="editRoleUrl(role.slug)"> Edit</TextLink>
+                                    <TextLink :href="editRoleUrl(role.slug)" v-if="can.edit"> Edit</TextLink>
                                     <DeleteDialog
                                         :resource="role"
                                         resource-name="role"
                                         route-name="roles.destroy"
                                         :current-page="roles.current_page"
+                                        v-if="can.delete"
                                     >
                                         <template #trigger>
                                             <Button variant="link" class="hover:cursor-pointer"
@@ -131,7 +134,7 @@ const editPermissionUrl = (slug: string) => {
                                             >
                                         </template>
                                     </DeleteDialog>
-                                    <TextLink :href="editPermissionUrl(role.slug)">
+                                    <TextLink :href="editPermissionUrl(role.slug)" v-if="can.assign">
                                         Assign</TextLink
                                     >
                                 </td>

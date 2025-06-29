@@ -31,5 +31,5 @@ Route::middleware(['can:manage,App\Models\Permission'])->group(function () {
 Route::get('role/{role:slug}/permission/edit', [RolePermissionController::class, 'edit'])->middleware(['auth', 'verified'])->name('role_permission.edit');
 Route::put('role/{role:id}/permission', [RolePermissionController::class, 'update'])->middleware(['auth', 'verified'])->name('role_permission.update');
 
-require __DIR__ . '/settings.php';
-require __DIR__ . '/auth.php';
+require __DIR__.'/settings.php';
+require __DIR__.'/auth.php';

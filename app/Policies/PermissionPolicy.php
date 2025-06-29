@@ -67,4 +67,9 @@ class PermissionPolicy
     {
         return $user->hasPermission('manage-permission');
     }
+
+    public function assign(User $user): bool
+    {
+        return $user->hasPermission('assign-permission');
+    }
 }

@@ -69,13 +69,16 @@ class User extends Authenticatable
         return $this->roles()->whereIn('name', $roles)->exists();
     }
 
+    protected array $permissionCache = [];
+
     public function hasPermission(string $permission): bool
     {
-        return $this->roles()
-            ->whereHas('permissions', function ($query) use ($permission) {
-                $query->where('slug', $permission);
-            })
-            ->exists();
+        if (!isset($this->permissionCache[$permission])) {
+            $this->permissionCache[$permission] = $this->roles()
+                ->whereHas('permissions', fn($q) => $q->where('slug', $permission))
+                ->exists();
+        }
+        return $this->permissionCache[$permission];
     }
 
     public function hasAnyPermission(array $permissions): bool
