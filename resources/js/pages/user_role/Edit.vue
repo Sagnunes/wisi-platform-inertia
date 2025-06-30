@@ -3,8 +3,8 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
-import { PermissionDTO as Permission } from '@/types/admin-panel/types';
-import { RolePermission } from '@/types/admin-panel/types';
+import { Permission } from '@/types/user/permissions';
+import { RolePermission } from '@/types/user/role_permission';
 import { Head, useForm } from '@inertiajs/vue3';
 import { PropType, onMounted } from 'vue';
 

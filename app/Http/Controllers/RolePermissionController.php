@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SyncRolePermissionsRequest;
 use App\Models\Role;
 use App\Services\RolePermissionService;
 use Illuminate\Http\Request;
@@ -21,7 +22,7 @@ class RolePermissionController extends Controller
         );
     }
 
-    public function update($roleID, Request $request): \Illuminate\Http\RedirectResponse
+    public function update(int $roleID, SyncRolePermissionsRequest $request): \Illuminate\Http\RedirectResponse
     {
         $this->rolePermissionService->syncPermissionToRole($roleID, $request->get('permissions'));
 

@@ -10,9 +10,9 @@ use Illuminate\Support\Str;
 final readonly class PermissionDTO
 {
     public function __construct(
-        public string $name,
-        public string $slug,
-        public ?int $id = null,
+        public string  $name,
+        public string  $slug,
+        public ?int    $id = null,
         public ?string $created_at = null,
         public ?string $updated_at = null,
     ) {}
@@ -31,7 +31,8 @@ final readonly class PermissionDTO
             name: $permission->name,
             slug: $permission->slug,
             id: $permission->id,
-            created_at: $permission->created_at->format('Y-m-d'),
+            created_at: $permission->created_at?->format('Y-m-d'),
+            updated_at: $permission->updated_at?->format('Y-m-d'),
         );
     }
 }

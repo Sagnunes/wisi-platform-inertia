@@ -21,7 +21,7 @@ final readonly class RolePermissionService
         return $this->permissionRepository->all();
     }
 
-    public function roleWithPermissions($roleId): Role
+    public function roleWithPermissions(int $roleId): Role
     {
         return $this->roleRepository->findOneWithPermissions($roleId);
     }

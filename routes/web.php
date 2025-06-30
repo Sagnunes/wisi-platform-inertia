@@ -35,6 +35,7 @@ Route::middleware(['can:manage,App\Models\User'])->group(function () {
     Route::resource('users', UserController::class)->middleware(['auth', 'verified'])->only(['index', 'destroy']);
     Route::patch('/users/{user}/status', [UserController::class, 'updateStatus'])
         ->name('users.status.update');
+    Route::get('user/{user:id}/roles/edit', [\App\Http\Controllers\UserRoleController::class, 'edit'])->middleware(['auth', 'verified'])->name('user_roles.edit');
 });
 
 Route::get('role/{role:slug}/permission/edit', [RolePermissionController::class, 'edit'])->middleware(['auth', 'verified'])->name('role_permission.edit');

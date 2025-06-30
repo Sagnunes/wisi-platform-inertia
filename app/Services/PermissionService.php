@@ -8,11 +8,16 @@ use App\Contracts\Permissions\PermissionInterface;
 use App\DTOs\Permission\PermissionDTO;
 use App\DTOs\Role\RoleDTO;
 use App\Models\Permission;
+use App\Traits\PaginationTrait;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 final readonly class PermissionService
 {
-    public function __construct(private PermissionInterface $repository) {}
+    use PaginationTrait;
+
+    public function __construct(private PermissionInterface $repository)
+    {
+    }
 
     private function toDto(Permission $permission): PermissionDTO
     {
@@ -27,7 +32,7 @@ final readonly class PermissionService
     public function allPermissions(): array
     {
         return $this->repository->all()
-            ->map(fn (Permission $permission) => $this->toDto($permission))
+            ->map(fn(Permission $permission) => $this->toDto($permission))
             ->toArray();
     }
 
@@ -54,23 +59,7 @@ final readonly class PermissionService
     {
         $paginated = $this->repository->permissionsPaginated($perPage);
 
-        return [
-            'current_page' => $paginated->currentPage(),
-            'data' => $paginated->getCollection()
-                ->map(fn (Permission $permission) => $this->toDto($permission))
-                ->all(),
-            'first_page_url' => $paginated->url(1),
-            'from' => $paginated->firstItem(),
-            'last_page' => $paginated->lastPage(),
-            'last_page_url' => $paginated->url($paginated->lastPage()),
-            'links' => $paginated->linkCollection()->toArray(),
-            'next_page_url' => $paginated->nextPageUrl(),
-            'path' => $paginated->path(),
-            'per_page' => $paginated->perPage(),
-            'prev_page_url' => $paginated->previousPageUrl(),
-            'to' => $paginated->lastItem(),
-            'total' => $paginated->total(),
-        ];
+        return $this->formatPagination($paginated, fn(Permission $permission) => $this->toDto($permission));
     }
 
     /**

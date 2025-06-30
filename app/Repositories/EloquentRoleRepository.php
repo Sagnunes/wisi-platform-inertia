@@ -61,7 +61,7 @@ class EloquentRoleRepository implements RoleInterface
 
     public function findOneWithPermissions($roleID): Role
     {
-        return Role::query()
+        return $this->model->query()
             ->select(self::ROLE_LIST_COLUMNS)
             ->with('permissions')
             ->where('id', $roleID)

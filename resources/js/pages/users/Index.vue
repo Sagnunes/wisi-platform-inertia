@@ -12,6 +12,7 @@ import { type BreadcrumbItem, User } from '@/types';
 import { Paginator, UserWithStatusAndRoles } from '@/types/admin-panel/types';
 import { Head, useForm } from '@inertiajs/vue3';
 import { PropType } from 'vue';
+import TextLink from '@/components/TextLink.vue';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -42,6 +43,10 @@ const confirmUpdateStatus = (user: User, status: number) => {
         only: ['users'],
     });
 };
+
+const manageRolesUrl = (user: User) => {
+    return `user/${user.id}/roles/edit`;
+}
 </script>
 
 <template>
@@ -186,6 +191,7 @@ const confirmUpdateStatus = (user: User, status: number) => {
                                                         >Block
                                                     </Button>
                                                 </div>
+                                                <TextLink :href="manageRolesUrl(user)">Roles</TextLink>
                                             </div>
                                         </td>
                                     </tr>
