@@ -1,3 +1,5 @@
+import { User } from '@/types';
+
 export interface Paginator<T> {
     current_page: number;
     data: T[];
@@ -46,4 +48,9 @@ interface RolePermission extends Role {
     permissions: Permission[];
 }
 
-export type { PermissionDTO, RoleDTO, RolePermission, StatusDTO };
+interface UserWithStatusAndRoles extends User {
+    status: StatusDTO;
+    roles: RoleDTO[];
+}
+
+export type { PermissionDTO, RoleDTO, RolePermission, StatusDTO, UserWithStatusAndRoles };

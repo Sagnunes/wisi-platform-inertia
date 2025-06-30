@@ -34,8 +34,12 @@ return new class extends Migration
 
             // Assignments
             ['name' => 'Assign Role', 'slug' => 'assign-role'],
-            ['name' => 'Assign Status', 'slug' => 'assign-status'],
+            ['name' => 'Validate Status', 'slug' => 'validate-status'],
             ['name' => 'Assign Permission', 'slug' => 'assign-permission'],
+
+            // Users
+
+            ['name' => 'Manage Users', 'slug' => 'manage-users'],
         ];
 
         $data = array_map(function ($permission) use ($now) {

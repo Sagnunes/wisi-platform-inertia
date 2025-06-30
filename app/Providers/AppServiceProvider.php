@@ -5,7 +5,8 @@ namespace App\Providers;
 use App\Contracts\Permissions\PermissionInterface;
 use App\Contracts\Roles\RoleInterface;
 use App\Contracts\Statuses\StatusInterface;
-use App\Contracts\UserInterface;
+use App\Contracts\Statuses\StatusValidatorInterface;
+use App\Contracts\Users\UserInterface;
 use App\Repositories\EloquentPermissionRepository;
 use App\Repositories\EloquentRoleRepository;
 use App\Repositories\EloquentStatusRepository;
@@ -28,6 +29,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(RoleInterface::class, EloquentRoleRepository::class);
         $this->app->bind(PermissionInterface::class, EloquentPermissionRepository::class);
         $this->app->bind(UserInterface::class, EloquentUserRepository::class);
+        $this->app->bind(StatusValidatorInterface::class, EloquentUserRepository::class);
     }
 
     /**

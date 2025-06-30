@@ -8,15 +8,20 @@ use App\Models\Status;
 use App\Models\User;
 use App\Services\StatusService;
 use App\Services\UserService;
+use App\Services\UserStatusService;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class UserController extends Controller
 {
+    use AuthorizesRequests;
+
     public function __construct(
         private readonly UserService $userService,
         private readonly StatusService $statusService,
+        private readonly UserStatusService $userStatusService,
     ) {}
 
     public function index(): Response
@@ -34,8 +39,9 @@ class UserController extends Controller
 
     public function updateStatus(Request $request, User $user)
     {
-        $status = $this->statusService->findOne($request->status_id);
-        $this->userService->updateStatus($user, $status);
+        $status = $this->statusService->findOne($request->status);
+
+        $this->userStatusService->updateStatus($user, $status);
 
         return redirect()->back()->with('success', 'Status updated');
     }
@@ -45,5 +51,18 @@ class UserController extends Controller
         $this->userService->assignRoles($user, $request->role_ids);
 
         return redirect()->back()->with('success', 'Roles assigned');
+    }
+
+    public function destroy(User $user)
+    {
+        $this->authorize('delete', $user);
+
+        $currentPage = request()->input('page', 1);
+
+        $this->userService->deleteUser($user);
+
+        return to_route('users.index', ['page' => $currentPage])
+            ->withSuccess('User deleted successfully.')
+            ->with('preserveScroll', true);
     }
 }

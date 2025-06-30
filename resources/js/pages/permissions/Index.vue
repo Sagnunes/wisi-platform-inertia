@@ -37,7 +37,7 @@ const editUrl = (slug: string) => {
         <div>
             <FlashMessage />
             <div class="mx-auto max-w-7xl px-4 sm:px-6 sm:pt-4 lg:space-y-8 lg:px-8 lg:pt-4">
-                <Tab :permissions="can"/>
+                <Tab :permissions="can" />
                 <div class="sm:flex sm:items-center">
                     <div class="sm:flex-auto">
                         <h1 class="text-base font-semibold text-gray-900">Permissions</h1>

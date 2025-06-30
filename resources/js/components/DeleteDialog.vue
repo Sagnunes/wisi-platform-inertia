@@ -84,7 +84,7 @@ const deleteResource = () => {
                     <DialogClose as-child>
                         <Button variant="secondary" @click="closeModal">Cancel</Button>
                     </DialogClose>
-                    <Button variant="destructive" :disabled="form.processing"> Delete </Button>
+                    <Button variant="destructive" :disabled="form.processing"> Delete</Button>
                 </DialogFooter>
             </form>
         </DialogContent>

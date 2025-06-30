@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Contracts\UserInterface;
+use App\Contracts\Users\UserInterface;
 use App\Models\Status;
 use App\Models\User;
 
@@ -25,5 +25,10 @@ class UserService
     public function assignRoles(User $user, array $rolesIds)
     {
         $this->userRepository->assignRoles($user, $rolesIds);
+    }
+
+    public function deleteUser(User $user)
+    {
+        $this->userRepository->delete($user);
     }
 }

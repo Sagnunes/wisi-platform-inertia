@@ -22,9 +22,9 @@ return new class extends Migration
 
         $now = Carbon\Carbon::now();
         DB::table('statuses')->insert([
-            ['name' => 'Pendente', 'slug' => 'pendente', 'created_at' => $now],
-            ['name' => 'Ativo', 'slug' => 'ativo', 'created_at' => $now],
-            ['name' => 'Bloqueado', 'slug' => 'bloqueado', 'created_at' => $now],
+            ['name' => 'Pending', 'slug' => 'pending', 'created_at' => $now],
+            ['name' => 'Active', 'slug' => 'active', 'created_at' => $now],
+            ['name' => 'Blocked', 'slug' => 'blocked', 'created_at' => $now],
         ]);
     }
 
